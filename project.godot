@@ -46,6 +46,7 @@ window/size/width=160
 window/size/height=90
 window/size/test_width=960
 window/size/test_height=540
+mouse_cursor/custom_image="res://sprites/etc/brackeys-cursor.png"
 window/stretch/mode="viewport"
 window/stretch/aspect="keep"
 

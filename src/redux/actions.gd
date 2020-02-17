@@ -31,3 +31,13 @@ func game_set_movement_vector(movement_vector):
 		'type': action_types.GAME_SET_MOVEMENT_VECTOR,
 		'movement_vector': movement_vector
 	}
+
+func portal_push_back_queue(portal):
+	return {
+		'type': action_types.PORTAL_PUSH_BACK_QUEUE
+	}
+
+func portal_clear_queue():
+	return {
+		'type': action_types.PORTAL_CLEAR_QUEUE
+	}

@@ -29,3 +29,20 @@ func game(state, action):
 		next_state['move_counter'] = action['move_counter']
 		return next_state
 	return state
+
+func portal(state, action):
+	if state.empty() and action['type'] == null:
+		return initial_state.get_substate('portal')
+	if action['type'] == action_types.GAME_SET_STATE:
+		var next_state = store.shallow_copy(state)
+		next_state['state'] = action['state']
+		return next_state
+	if action['type'] == action_types.PORTAL_CLEAR_QUEUE:
+		var next_state = store.shallow_copy(state)
+		next_state['queue'].clear()
+		return next_state
+	if action['type'] == action_types.PORTAL_PUSH_BACK_QUEUE:
+		var next_state = store.shallow_copy(state)
+		next_state['queue'].push_back(action['portal'])
+		return next_state
+	return state

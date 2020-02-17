@@ -6,7 +6,8 @@ extends Node2D
 
 func _ready():
 	store.create([
-		{'name': 'game', 'instance': reducers}
+		{'name': 'game', 'instance': reducers},
+		{'name': 'portal', 'instance': reducers},
 	], [
 		{'name': '_on_store_changed', 'instance': self}
 	])

@@ -2,7 +2,8 @@ extends Node
 
 static func get_state():
 	return {
-		'game': get_substate('game')
+		'game': get_substate('game'),
+		'portal': get_substate('queue')
 	}
 
 static func get_state_property(substate, key):
@@ -13,10 +14,11 @@ static func get_substate(substate):
 		'game':
 			return {
 				'state': Globals.GameState.INTRO,
-				'level': 1,
-				'can_move': true,
-				'movement_vector': Vector2(),
-				'move_counter': 0
+				'level': 1
+			}
+		'portal':
+			return {
+				'queue': []
 			}
 	return {}
 

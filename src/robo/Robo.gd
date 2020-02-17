@@ -7,6 +7,8 @@ var dir_next = 1
 var anim_curr = ""
 var anim_next = ""
 
+var save_point_pos = Vector2(44, 52)
+
 onready var rotate = $Rotate
 onready var fsm = FSM.new(self, $States, $States/Idle, true)
 
@@ -23,7 +25,7 @@ func _physics_process(delta):
 
 	if dir_next != rotate.scale.x:
 		rotate.scale.x = dir_next
-
+	
 func set_direction():
 	var mouse_offset = get_global_mouse_position() - global_position
 	
@@ -31,3 +33,6 @@ func set_direction():
 		dir_next = 1
 	elif mouse_offset.x < 0:
 		dir_next = -1
+
+func set_next_state(state):
+	fsm.state_next = state
