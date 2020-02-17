@@ -1,0 +1,292 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://src/ui/MainMenu.gd" type="Script" id=1]
+[ext_resource path="res://assets/fonts/TitleFont.tres" type="DynamicFont" id=2]
+[ext_resource path="res://assets/fonts/MenuFontSmall.tres" type="DynamicFont" id=3]
+
+[node name="MainMenu" type="MarginContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MenuItems" type="HBoxContainer" parent="."]
+margin_right = 399.0
+margin_bottom = 304.0
+alignment = 1
+
+[node name="MenuOptions" type="VBoxContainer" parent="MenuItems"]
+margin_right = 120.0
+margin_bottom = 304.0
+custom_constants/separation = 5
+alignment = 1
+
+[node name="StartContainer" type="CenterContainer" parent="MenuItems/MenuOptions"]
+margin_top = 97.0
+margin_right = 120.0
+margin_bottom = 130.0
+rect_min_size = Vector2( 120, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Start" type="Label" parent="MenuItems/MenuOptions/StartContainer"]
+margin_left = 31.0
+margin_right = 88.0
+margin_bottom = 33.0
+custom_fonts/font = ExtResource( 3 )
+text = "start"
+
+[node name="OptionsContainer" type="CenterContainer" parent="MenuItems/MenuOptions"]
+margin_top = 135.0
+margin_right = 120.0
+margin_bottom = 168.0
+rect_min_size = Vector2( 120, 0 )
+
+[node name="Options" type="Label" parent="MenuItems/MenuOptions/OptionsContainer"]
+margin_left = 20.0
+margin_right = 100.0
+margin_bottom = 33.0
+custom_fonts/font = ExtResource( 3 )
+text = "options"
+
+[node name="CreditsContainer" type="CenterContainer" parent="MenuItems/MenuOptions"]
+margin_top = 173.0
+margin_right = 120.0
+margin_bottom = 206.0
+rect_min_size = Vector2( 120, 0 )
+
+[node name="Credits" type="Label" parent="MenuItems/MenuOptions/CreditsContainer"]
+margin_left = 21.0
+margin_right = 99.0
+margin_bottom = 33.0
+custom_fonts/font = ExtResource( 3 )
+text = "credits"
+
+[node name="TitleItems" type="VBoxContainer" parent="MenuItems"]
+margin_left = 124.0
+margin_right = 399.0
+margin_bottom = 304.0
+alignment = 1
+
+[node name="RichNameContainer" type="CenterContainer" parent="MenuItems/TitleItems"]
+margin_right = 275.0
+margin_bottom = 40.0
+
+[node name="RichName" type="RichTextLabel" parent="MenuItems/TitleItems/RichNameContainer"]
+margin_right = 275.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 275, 40 )
+custom_fonts/normal_font = ExtResource( 3 )
+bbcode_enabled = true
+bbcode_text = "a game by Jon Topielski"
+text = "a game by Jon Topielski"
+scroll_active = false
+
+[node name="TitleContainer" type="CenterContainer" parent="MenuItems/TitleItems"]
+visible = false
+margin_right = 495.0
+margin_bottom = 65.0
+
+[node name="Title" type="Label" parent="MenuItems/TitleItems/TitleContainer"]
+margin_right = 495.0
+margin_bottom = 65.0
+custom_fonts/font = ExtResource( 2 )
+text = "TEMPLATE PROJECT"
+
+[node name="RichTitleContainer" type="CenterContainer" parent="MenuItems/TitleItems"]
+visible = false
+margin_right = 25.0
+
+[node name="RichTitle" type="RichTextLabel" parent="MenuItems/TitleItems/RichTitleContainer"]
+margin_right = 450.0
+margin_bottom = 70.0
+rect_min_size = Vector2( 450, 70 )
+custom_fonts/normal_font = ExtResource( 2 )
+bbcode_enabled = true
+scroll_active = false
+
+[node name="PortalTextContainer" type="VBoxContainer" parent="MenuItems/TitleItems"]
+visible = false
+margin_top = 44.0
+margin_right = 275.0
+margin_bottom = 262.0
+
+[node name="PortalContainer" type="CenterContainer" parent="MenuItems/TitleItems/PortalTextContainer"]
+margin_right = 275.0
+margin_bottom = 33.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Portal" type="Label" parent="MenuItems/TitleItems/PortalTextContainer/PortalContainer"]
+margin_left = 105.0
+margin_right = 170.0
+margin_bottom = 33.0
+custom_fonts/font = ExtResource( 3 )
+text = "portal"
+
+[node name="PortalContainer2" type="CenterContainer" parent="MenuItems/TitleItems/PortalTextContainer"]
+margin_top = 37.0
+margin_right = 275.0
+margin_bottom = 70.0
+
+[node name="Portal" type="Label" parent="MenuItems/TitleItems/PortalTextContainer/PortalContainer2"]
+margin_left = 105.0
+margin_right = 170.0
+margin_bottom = 33.0
+custom_fonts/font = ExtResource( 3 )
+text = "portal"
+
+[node name="PortalContainer3" type="CenterContainer" parent="MenuItems/TitleItems/PortalTextContainer"]
+margin_top = 74.0
+margin_right = 275.0
+margin_bottom = 107.0
+
+[node name="Portal" type="Label" parent="MenuItems/TitleItems/PortalTextContainer/PortalContainer3"]
+margin_left = 105.0
+margin_right = 170.0
+margin_bottom = 33.0
+custom_fonts/font = ExtResource( 3 )
+text = "portal"
+
+[node name="PortalContainer4" type="CenterContainer" parent="MenuItems/TitleItems/PortalTextContainer"]
+margin_top = 111.0
+margin_right = 275.0
+margin_bottom = 144.0
+
+[node name="Portal" type="Label" parent="MenuItems/TitleItems/PortalTextContainer/PortalContainer4"]
+margin_left = 105.0
+margin_right = 170.0
+margin_bottom = 33.0
+custom_fonts/font = ExtResource( 3 )
+text = "portal"
+
+[node name="PortalContainer5" type="CenterContainer" parent="MenuItems/TitleItems/PortalTextContainer"]
+margin_top = 148.0
+margin_right = 275.0
+margin_bottom = 181.0
+
+[node name="Portal" type="Label" parent="MenuItems/TitleItems/PortalTextContainer/PortalContainer5"]
+margin_left = 105.0
+margin_right = 170.0
+margin_bottom = 33.0
+custom_fonts/font = ExtResource( 3 )
+text = "portal"
+
+[node name="PortalContainer6" type="CenterContainer" parent="MenuItems/TitleItems/PortalTextContainer"]
+margin_top = 185.0
+margin_right = 275.0
+margin_bottom = 218.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Portal" type="Label" parent="MenuItems/TitleItems/PortalTextContainer/PortalContainer6"]
+margin_left = 105.0
+margin_right = 170.0
+margin_bottom = 33.0
+custom_fonts/font = ExtResource( 3 )
+text = "portal"
+
+[node name="RichPortalVBoxContainer" type="VBoxContainer" parent="MenuItems/TitleItems"]
+margin_top = 44.0
+margin_right = 275.0
+margin_bottom = 304.0
+
+[node name="RichPortalContainer" type="CenterContainer" parent="MenuItems/TitleItems/RichPortalVBoxContainer"]
+margin_right = 275.0
+margin_bottom = 40.0
+
+[node name="RichPortal" type="RichTextLabel" parent="MenuItems/TitleItems/RichPortalVBoxContainer/RichPortalContainer"]
+margin_left = 87.0
+margin_right = 187.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 100, 40 )
+custom_fonts/normal_font = ExtResource( 3 )
+bbcode_enabled = true
+bbcode_text = " po[tornado radius=5 freq=2]rt[/tornado]al"
+text = " portal"
+scroll_active = false
+
+[node name="RichPortalContainer2" type="CenterContainer" parent="MenuItems/TitleItems/RichPortalVBoxContainer"]
+margin_top = 44.0
+margin_right = 275.0
+margin_bottom = 84.0
+
+[node name="RichPortal" type="RichTextLabel" parent="MenuItems/TitleItems/RichPortalVBoxContainer/RichPortalContainer2"]
+margin_left = 87.0
+margin_right = 187.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 100, 40 )
+custom_fonts/normal_font = ExtResource( 3 )
+bbcode_enabled = true
+bbcode_text = " p[tornado radius=5 freq=2]orta[/tornado]l"
+text = " portal"
+scroll_active = false
+
+[node name="RichPortalContainer3" type="CenterContainer" parent="MenuItems/TitleItems/RichPortalVBoxContainer"]
+margin_top = 88.0
+margin_right = 275.0
+margin_bottom = 128.0
+
+[node name="RichPortal" type="RichTextLabel" parent="MenuItems/TitleItems/RichPortalVBoxContainer/RichPortalContainer3"]
+margin_left = 87.0
+margin_right = 187.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 100, 40 )
+custom_fonts/normal_font = ExtResource( 3 )
+bbcode_enabled = true
+bbcode_text = " [tornado radius=5 freq=2]portal[/tornado]"
+text = " portal"
+scroll_active = false
+
+[node name="RichPortalContainer4" type="CenterContainer" parent="MenuItems/TitleItems/RichPortalVBoxContainer"]
+margin_top = 132.0
+margin_right = 275.0
+margin_bottom = 172.0
+
+[node name="RichPortal" type="RichTextLabel" parent="MenuItems/TitleItems/RichPortalVBoxContainer/RichPortalContainer4"]
+margin_left = 87.0
+margin_right = 187.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 100, 40 )
+custom_fonts/normal_font = ExtResource( 3 )
+bbcode_enabled = true
+bbcode_text = " [tornado radius=5 freq=2]portal[/tornado]"
+text = " portal"
+scroll_active = false
+
+[node name="RichPortalContainer5" type="CenterContainer" parent="MenuItems/TitleItems/RichPortalVBoxContainer"]
+margin_top = 176.0
+margin_right = 275.0
+margin_bottom = 216.0
+
+[node name="RichPortal" type="RichTextLabel" parent="MenuItems/TitleItems/RichPortalVBoxContainer/RichPortalContainer5"]
+margin_left = 87.0
+margin_right = 187.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 100, 40 )
+custom_fonts/normal_font = ExtResource( 3 )
+bbcode_enabled = true
+bbcode_text = " p[tornado radius=5 freq=2]orta[/tornado]l"
+text = " portal"
+scroll_active = false
+
+[node name="RichPortalContainer6" type="CenterContainer" parent="MenuItems/TitleItems/RichPortalVBoxContainer"]
+margin_top = 220.0
+margin_right = 275.0
+margin_bottom = 260.0
+
+[node name="RichPortal" type="RichTextLabel" parent="MenuItems/TitleItems/RichPortalVBoxContainer/RichPortalContainer6"]
+margin_left = 87.0
+margin_right = 187.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 100, 40 )
+custom_fonts/normal_font = ExtResource( 3 )
+bbcode_enabled = true
+bbcode_text = " po[tornado radius=5 freq=2]rt[/tornado]al"
+text = " portal"
+scroll_active = false

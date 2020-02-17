@@ -1,0 +1,38 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+// how much to upscale by
+uniform float resolution_scale : hint_range(1, 10);
+
+void fragment() {
+	// if we are 1:1, don't do anything
+	if (resolution_scale == 1.0) {
+		COLOR = texture(TEXTURE, UV);
+	} else {
+		// we want to scale the image down
+		// step every nth pixel, where n is the scale
+
+		// convert the UV into texture coordinates
+		vec2 texture_size = vec2(textureSize(TEXTURE, 1));
+		vec2 uv_pixels = UV * texture_size;
+		
+		// divide the pixels by the scale and floor to get the whole-number step count
+		vec2 step_count = floor(uv_pixels / resolution_scale);
+		
+		// now we want to sample at the step count as opposed to the usual UV
+		vec2 new_uv_pixels = step_count * resolution_scale;
+		vec2 new_uv = new_uv_pixels / texture_size;
+		
+		// sample this new position
+		vec4 color = texture(TEXTURE, new_uv);
+		
+		// use the color
+		COLOR = color;
+	}
+}"
+
+[resource]
+shader = SubResource( 1 )
+shader_param/resolution_scale = 1.0
