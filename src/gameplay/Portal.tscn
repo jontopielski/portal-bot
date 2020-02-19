@@ -17,5 +17,10 @@ autostart = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2( 0, 5 )
 shape = SubResource( 1 )
+
+[node name="ExpandTimer" type="Timer" parent="."]
+wait_time = 0.01
+autostart = true
 [connection signal="timeout" from="SpinTimer" to="." method="_on_SpinTimer_timeout"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
+[connection signal="timeout" from="ExpandTimer" to="." method="_on_ExpandTimer_timeout"]

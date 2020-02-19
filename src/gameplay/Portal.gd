@@ -7,8 +7,10 @@ var TEMP_START_POS = Vector2(0, 0)
 var radius = 5
 var spiral_rotation = 0
 var spiral_points = []
+var portal_type = Globals.PortalType.STANDARD
 
 func _ready():
+	scale = Vector2.ZERO
 	for i in range(0, 6):
 		spiral_points.push_back(get_spiral_points(i));
 
@@ -58,5 +60,13 @@ func _on_SpinTimer_timeout():
 func _on_Area2D_body_entered(body):
 	if body.name == "Robo":
 		body.position = position
+		Globals.set_last_portal_coordinates_from_pos(position)
 		if body.fsm.state_curr != body.fsm.states.WarpOut:
 			body.fsm.state_next = body.fsm.states.WarpIn
+
+
+func _on_ExpandTimer_timeout():
+	scale += Vector2(.1, .1)
+	if scale >= Vector2(1, 1):
+		scale = Vector2(1, 1)
+		$ExpandTimer.stop()

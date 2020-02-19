@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://src/ui/TransitionScreen.gd" type="Script" id=1]
+
+[node name="TransitionScreen" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="FadeToBlackTimer" type="Timer" parent="."]
+wait_time = 0.04
+one_shot = true
+
+[node name="FadeToNormalTimer" type="Timer" parent="."]
+wait_time = 0.04
+one_shot = true
+[connection signal="timeout" from="FadeToBlackTimer" to="." method="_on_FadeToBlackTimer_timeout"]
+[connection signal="timeout" from="FadeToNormalTimer" to="." method="_on_FadeToNormalTimer_timeout"]

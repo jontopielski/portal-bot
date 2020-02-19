@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://src/backgrounds/BackgroundStar.gd" type="Script" id=1]
+
+[node name="BackgroundStar" type="Node2D"]
+script = ExtResource( 1 )
+supershape_scale = 20.0
+m = 5.0
+n1 = 0.3
+n2 = 0.3
+n3 = 0.3
+m_max = 6.0
+m_min = 4.0
+
+[node name="UITimer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+[connection signal="timeout" from="UITimer" to="." method="_on_UITimer_timeout"]

@@ -2,10 +2,10 @@
 
 [ext_resource path="res://src/backgrounds/SpaceBackground.gd" type="Script" id=1]
 
-[sub_resource type="Gradient" id=4]
+[sub_resource type="Gradient" id=1]
 
-[sub_resource type="GradientTexture" id=5]
-gradient = SubResource( 4 )
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
 
 [sub_resource type="ParticlesMaterial" id=3]
 flag_disable_z = true
@@ -14,12 +14,13 @@ gravity = Vector3( -50, 0, 0 )
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 scale_random = 0.5
-color_ramp = SubResource( 5 )
+color_ramp = SubResource( 2 )
 
 [node name="SpaceBackground" type="Node2D"]
 script = ExtResource( 1 )
 
 [node name="ColorRect" type="ColorRect" parent="."]
+visible = false
 margin_right = 160.0
 margin_bottom = 90.0
 color = Color( 0, 0, 0, 1 )
@@ -29,11 +30,10 @@ __meta__ = {
 
 [node name="Particles2D" type="Particles2D" parent="."]
 position = Vector2( 379, 36 )
-amount = 6
-lifetime = 5.0
-preprocess = 2.0
+amount = 9
+lifetime = 10.0
+preprocess = 3.0
 explosiveness = 0.2
-randomness = 0.5
 visibility_rect = Rect2( -400, -42, 200, 100 )
 local_coords = false
 process_material = SubResource( 3 )
@@ -42,4 +42,4 @@ process_material = SubResource( 3 )
 position = Vector2( 183, 4 )
 
 [node name="BottomPosition" type="Position2D" parent="."]
-position = Vector2( 183, 56 )
+position = Vector2( 183, 73 )
