@@ -26,7 +26,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="portalportalportalportalportalportal"
+config/name="Starbot"
 run/main_scene="res://src/Main.tscn"
 config/icon="res://sprites/etc/icon.png"
 

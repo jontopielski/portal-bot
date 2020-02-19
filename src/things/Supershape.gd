@@ -73,7 +73,7 @@ func _on_MoveTimer_timeout():
 		return
 	move_counter += 1 * move_direction
 	position.x += 10 * move_direction
-	if move_counter >= 5:
+	if move_counter >= 4:
 		move_direction = -1
 	elif move_counter <= 0:
 		move_direction = 1

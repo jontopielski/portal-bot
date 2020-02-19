@@ -3,13 +3,14 @@ extends Node2D
 var transition_color = Color.white
 var transition_color_2 = Color.black
 var curviness = 0.8
-var nb_points = 8
+var nb_points = 6
 var origin = Vector2.ZERO
 var visible_counter = 0
 var radius_increment = 15
 var polyline_width = 25
 var is_fading_to_black = true
 var max_visible_circles = 10
+var white_circle_width = 5
 
 func _ready():
 	pass
@@ -18,7 +19,9 @@ func _draw():
 	for i in range(0, visible_counter):
 		if i == visible_counter - 1:
 			draw_circular_arc_width(origin, (max_visible_circles * radius_increment) - radius_increment * i,
-				0, 360, transition_color, curviness, 32, 5)
+				0, 360, transition_color, curviness, nb_points, white_circle_width)
+			draw_circular_arc_width(origin, (max_visible_circles * radius_increment) - radius_increment * i,
+				360, 0, transition_color, curviness, nb_points, white_circle_width)
 		else:
 			draw_circular_arc(origin, (max_visible_circles * radius_increment) - radius_increment * i,
 					0, 360, transition_color_2, curviness, nb_points)

@@ -10,6 +10,8 @@ var portal_info_next
 var next_portal_vec_from_timer = Vector2.ZERO
 var next_portal_type_from_timer = Globals.PortalType.STANDARD
 
+var has_shown_first_portal_this_life = false
+
 func _ready():
 	$BlackBackground.show()
 	$Camera2D/TransitionScreen.fade_out_of_point($Robo.position)
@@ -62,9 +64,15 @@ func handle_player_current_tile_logic(player_tilemap_coordinates):
 			$Camera2D.display_text_start(Constants.SIGN_THIRD)
 		elif Globals.CurrentRoom == Vector2(10, 5):
 			$Camera2D.display_text_start(Constants.SIGN_FOURTH)
+		elif Globals.CurrentRoom == Vector2(11, 5):
+			$Camera2D.display_text_start(Constants.SIGN_FIVE)
 	elif player_current_tile_index in Constants.DEATH_TILES:
 		$Robo.cause_of_death = Globals.DeathCause.SPIKES
 		$Robo.set_next_state($Robo.fsm.states.Death)
+	if player_tilemap_coordinates == Vector2(25, 6) and ($Robo.save_point_pos == Constants.PLAYER_START_POSITION) \
+			and $FirstPortalTimer.is_stopped() and !has_shown_first_portal_this_life:
+		$FirstPortalTimer.start()
+		has_shown_first_portal_this_life = true
 
 func set_active_save_point(save_point_coordinates):
 	$TileMap.set_cell(save_point_coordinates.x, save_point_coordinates.y,
@@ -74,14 +82,14 @@ func set_active_save_point(save_point_coordinates):
 func handle_camera_positioning_and_next_level(player_tilemap_coordinates, next_camera_position):
 	if $Camera2D.position != next_camera_position:
 		var room_next = Vector2(next_camera_position.x / 160, next_camera_position.y / 90)
-		Globals.CurrentRoom = room_next
+#		Globals.CurrentRoom = room_next
 		$Robo.is_on_cooldown = false
 		if Constants.DEBUG_MODE:
 			print("Updating camera position to: ", next_camera_position)
-#		handle_cleanup_prev_room(Globals.CurrentRoom)
-		$CleanupTimer.start()
+		handle_cleanup_prev_room(Globals.CurrentRoom)
+#		$CleanupTimer.start()
 		handle_prepare_next_room(room_next)
-#		Globals.CurrentRoom = room_next
+		Globals.CurrentRoom = room_next
 		$Camera2D.position = next_camera_position
 		$SpaceBackgrounds.position = next_camera_position
 		$GeneratedStars.position = next_camera_position
@@ -118,10 +126,11 @@ func handle_prepare_next_room(room):
 		Vector2(0, 0):
 			pass
 		Vector2(1, 0):
-			Globals.set_next_portal_info(Vector2(20, 7), Globals.PortalType.STANDARD)
-			next_portal_vec_from_timer = Vector2(29, 1)
-			next_portal_type_from_timer = Globals.PortalType.STANDARD
-			$AddSecondPortalTimer.start() # Hack!
+			Globals.set_next_portal_info(Vector2(29, 1), Globals.PortalType.STANDARD)
+#			Globals.set_next_portal_info(Vector2(20, 7), Globals.PortalType.STANDARD)
+#			next_portal_vec_from_timer = Vector2(29, 1)
+#			next_portal_type_from_timer = Globals.PortalType.STANDARD
+#			$AddSecondPortalTimer.start() # Hack!
 		Vector2(3, 1):
 			create_flame_at_coordinates(Vector2(53, 16))
 			
@@ -169,6 +178,14 @@ func handle_prepare_next_room(room):
 		Vector2(6, 3):
 			create_flame_at_coordinates(Vector2(102, 29))
 			create_flame_at_coordinates(Vector2(105, 31))
+		Vector2(9, 3):
+			create_flame_at_coordinates(Vector2(146, 34))
+			create_flame_at_coordinates(Vector2(147, 34))
+			create_flame_at_coordinates(Vector2(148, 34))
+			create_flame_at_coordinates(Vector2(149, 34))
+			create_flame_at_coordinates(Vector2(150, 34))
+			create_flame_at_coordinates(Vector2(151, 34))
+			create_flame_at_coordinates(Vector2(152, 34))
 
 func clear_flames():
 	for flame in $Flames.get_children():
@@ -202,3 +219,6 @@ func camera_fade_out_of_point(point):
 func _on_CleanupTimer_timeout():
 	Globals.clear_portals()
 	clear_flames()
+
+func _on_FirstPortalTimer_timeout():
+	Globals.set_next_portal_info(Vector2(20, 7), Globals.PortalType.STANDARD)

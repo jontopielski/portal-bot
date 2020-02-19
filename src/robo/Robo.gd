@@ -37,6 +37,8 @@ func _physics_process(delta):
 		handle_mouse_click(get_global_mouse_position())
 	if Input.is_action_pressed("ui_restart"):
 		fsm.state_next = fsm.states.Death
+		if save_point_pos == Constants.PLAYER_START_POSITION:
+			get_parent().has_shown_first_portal_this_life = false
 	
 func set_direction():
 	var mouse_offset = get_global_mouse_position() - global_position
