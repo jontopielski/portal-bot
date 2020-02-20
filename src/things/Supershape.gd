@@ -21,6 +21,7 @@ var move_direction = 1
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+#	position = Vector2(30, 30)
 	if is_on_bullet:
 		$CollisionShape2D.queue_free()
 	fill_supershape_points()

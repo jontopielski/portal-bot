@@ -2,7 +2,9 @@ extends Node2D
 
 const Portal = preload("res://src/gameplay/Portal.tscn")
 const Flame = preload("res://src/things/Flame.tscn")
+const Box = preload("res://src/box/Box.tscn")
 const CollectibleGun = preload("res://src/things/CollectibleGun.tscn")
+const Snake = preload("res://src/snake/Snake.tscn")
 
 var portal_info_prev = Globals.get_initial_portal_info()
 var portal_info_next
@@ -24,6 +26,25 @@ func _process(delta):
 	handle_player_current_tile_logic(player_tilemap_coordinates)
 	handle_player_below_tile_logic(player_tilemap_coordinates)
 	handle_next_portal_info()
+	if Globals.CurrentRoom == Vector2(8, 3):
+		handle_pressure_trigger_on_8_3(player_tilemap_coordinates)
+
+func handle_pressure_trigger_on_8_3(player_tilemap_coordinates):
+	var pressure_tile_coordinates = Vector2(132, 34)
+	var pressure_tile_index = $TileMap.get_cell(132, 34)
+	var spike_tiles = PoolVector2Array([Vector2(136, 34), Vector2(137, 34), Vector2(138, 34),
+			Vector2(139, 34), Vector2(140, 34), Vector2(141, 34), Vector2(142, 34)])
+	var box_coordinates_list = PoolVector2Array()
+	for box in $Boxes.get_children():
+		box_coordinates_list.append($TileMap.world_to_map(box.position))
+	if player_tilemap_coordinates == Vector2(132, 33) or Vector2(132, 33) in box_coordinates_list:
+		for vec in spike_tiles:
+			$TileMap.set_cell(vec.x, vec.y, Constants.TILE_REGULAR)
+		$TileMap.set_cell(pressure_tile_coordinates.x, pressure_tile_coordinates.y, Constants.TILE_PRESSURE_PAD_ONE)
+	elif pressure_tile_index == Constants.TILE_PRESSURE_PAD_ONE:
+		$TileMap.set_cell(pressure_tile_coordinates.x, pressure_tile_coordinates.y, Constants.TILE_PRESSURE_PAD_ZERO)
+		for vec in spike_tiles:
+			$TileMap.set_cell(vec.x, vec.y, Constants.TILE_SPIKE_INDEX)
 
 func handle_next_portal_info():
 	portal_info_next = Globals.NextPortalInfo
@@ -64,7 +85,7 @@ func handle_player_current_tile_logic(player_tilemap_coordinates):
 			$Camera2D.display_text_start(Constants.SIGN_THIRD)
 		elif Globals.CurrentRoom == Vector2(10, 5):
 			$Camera2D.display_text_start(Constants.SIGN_FOURTH)
-		elif Globals.CurrentRoom == Vector2(11, 5):
+		elif Globals.CurrentRoom == Vector2(12, 5):
 			$Camera2D.display_text_start(Constants.SIGN_FIVE)
 	elif player_current_tile_index in Constants.DEATH_TILES:
 		$Robo.cause_of_death = Globals.DeathCause.SPIKES
@@ -106,6 +127,14 @@ func update_star_position(star, next_camera_position, room_next):
 	star.position = Vector2(next_camera_position.x + star.x_offset - ((star.supershape_scale / 4.0) * room_next.x),
 				next_camera_position.y + star.y_offset - ((star.supershape_scale / 4.0) * room_next.y))
 
+func clear_all_shit():
+	Globals.clear_portals()
+	clear_flames()
+	clear_boxes()
+	clear_snakes()
+	handle_prepare_next_room(Globals.CurrentRoom)
+	$Robo.is_on_cooldown = false
+
 func handle_cleanup_prev_room(room):
 	if Constants.DEBUG_MODE: print("Cleaning up room ", str(room))
 	match room:
@@ -119,6 +148,8 @@ func handle_cleanup_prev_room(room):
 			pass
 	Globals.clear_portals()
 	clear_flames()
+	clear_boxes()
+	clear_snakes()
 
 func handle_prepare_next_room(room):
 	if Constants.DEBUG_MODE: print("Preparing room ", str(room))
@@ -126,6 +157,9 @@ func handle_prepare_next_room(room):
 		Vector2(0, 0):
 			pass
 		Vector2(1, 0):
+			# Reset portal_info_prev
+			if !has_shown_first_portal_this_life:
+				portal_info_prev = Globals.get_initial_portal_info()
 			Globals.set_next_portal_info(Vector2(29, 1), Globals.PortalType.STANDARD)
 #			Globals.set_next_portal_info(Vector2(20, 7), Globals.PortalType.STANDARD)
 #			next_portal_vec_from_timer = Vector2(29, 1)
@@ -178,24 +212,51 @@ func handle_prepare_next_room(room):
 		Vector2(6, 3):
 			create_flame_at_coordinates(Vector2(102, 29))
 			create_flame_at_coordinates(Vector2(105, 31))
+		Vector2(8, 3):
+			create_box_at_coordinates(Vector2(143, 33))
 		Vector2(9, 3):
-			create_flame_at_coordinates(Vector2(146, 34))
-			create_flame_at_coordinates(Vector2(147, 34))
-			create_flame_at_coordinates(Vector2(148, 34))
+			create_flame_at_coordinates(Vector2(146, 35))
+			create_flame_at_coordinates(Vector2(147, 35))
+			create_flame_at_coordinates(Vector2(148, 35))
+			create_flame_at_coordinates(Vector2(149, 35))
+			
 			create_flame_at_coordinates(Vector2(149, 34))
 			create_flame_at_coordinates(Vector2(150, 34))
 			create_flame_at_coordinates(Vector2(151, 34))
 			create_flame_at_coordinates(Vector2(152, 34))
+		Vector2(11, 5):
+			create_snake_at_coordinates(Vector2(11, 5), Vector2(184, 52))
+
+func create_snake_at_coordinates(room, coordinates):
+	var snake = Snake.instance()
+	var snake_position = $TileMap.map_to_world(coordinates) + Vector2(5, 5)
+	snake.set_spawn_position(snake_position)
+	snake.set_room(room)
+	$Snakes.add_child(snake)
+
+func clear_snakes():
+	for snake in $Snakes.get_children():
+		snake.queue_free()
 
 func clear_flames():
 	for flame in $Flames.get_children():
 		flame.queue_free()
+
+func clear_boxes():
+	for box in $Boxes.get_children():
+		box.queue_free()
 
 func create_flame_at_coordinates(coordinates):
 	var flame = Flame.instance()
 	var flame_position = $TileMap.map_to_world(coordinates) + Vector2(5, 5)
 	flame.position = flame_position
 	$Flames.add_child(flame)
+
+func create_box_at_coordinates(coordinates):
+	var box = Box.instance()
+	var box_position = $TileMap.map_to_world(coordinates) + Vector2(5, 5)
+	box.set_spawn_position(box_position)
+	$Boxes.add_child(box)
 
 func replace_tile_with_portal(portal):
 	var portal_coordinates = $TileMap.world_to_map(portal.position)
@@ -217,6 +278,7 @@ func camera_fade_out_of_point(point):
 	$Camera2D/TransitionScreen.fade_out_of_point(point)
 
 func _on_CleanupTimer_timeout():
+	print(Globals.CurrentRoom)
 	Globals.clear_portals()
 	clear_flames()
 

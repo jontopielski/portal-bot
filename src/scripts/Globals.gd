@@ -37,6 +37,7 @@ var NextPortalInfo = get_initial_portal_info()
 var LastPortalCoordinates = Vector2.ZERO
 var LastPortalType = PortalType.STANDARD
 var CurrentRoom = Vector2.ZERO
+var PlayerPosition = Vector2.ZERO
 
 func get_next_portal_position(allow_same):
 	for portal in PortalQueue:

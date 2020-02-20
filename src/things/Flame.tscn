@@ -7,7 +7,14 @@ radius = 3.0
 
 [node name="Flame" type="Area2D"]
 script = ExtResource( 1 )
-supershape_scale = 7.0
+supershape_scale = 6.0
+supershape_np = 16
+m = 8.0
+n1 = 0.2
+n2 = 1.5
+n3 = 1.5
+m_max = 8
+m_min = 10
 
 [node name="UITimer" type="Timer" parent="."]
 wait_time = 0.2

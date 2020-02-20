@@ -9,7 +9,9 @@ func terminate():
 	obj.rotate.rotation = 0
 	obj.rotate.scale = Vector2.ONE
 	obj.arm.scale = Vector2.ONE
-	Globals.clear_portals()
+	
+#	Globals.clear_portals()
+	obj.get_parent().clear_all_shit()
 
 func run(_delta):
 	if obj.cause_of_death == Globals.DeathCause.SPIKES:

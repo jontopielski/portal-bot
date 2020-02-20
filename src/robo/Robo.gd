@@ -110,3 +110,6 @@ func fade_in():
 
 func fade_out():
 	get_parent().camera_fade_out_of_point(position)
+
+func _on_UpdatePlayerPositionTimer_timeout():
+	Globals.PlayerPosition = global_position

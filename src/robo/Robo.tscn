@@ -152,5 +152,10 @@ position = Vector2( 5.73476, 0 )
 [node name="ShotCooldownTimer" type="Timer" parent="."]
 wait_time = 0.5
 one_shot = true
+
+[node name="UpdatePlayerPositionTimer" type="Timer" parent="."]
+wait_time = 0.2
+autostart = true
 [connection signal="timeout" from="States/WarpIn/Timer" to="States/WarpIn" method="_on_Timer_timeout"]
 [connection signal="timeout" from="ShotCooldownTimer" to="." method="_on_ShotCooldownTimer_timeout"]
+[connection signal="timeout" from="UpdatePlayerPositionTimer" to="." method="_on_UpdatePlayerPositionTimer_timeout"]

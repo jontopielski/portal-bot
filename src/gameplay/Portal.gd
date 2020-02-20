@@ -58,11 +58,13 @@ func _on_SpinTimer_timeout():
 	update()
 
 func _on_Area2D_body_entered(body):
-	if body.name == "Robo":
-		body.position = position
-		Globals.set_last_portal_coordinates_from_pos(position)
-		if body.fsm.state_curr != body.fsm.states.WarpOut:
-			body.fsm.state_next = body.fsm.states.WarpIn
+	var portalable_bodies = ["Robo", "Box", "Snake"]
+	for portalable_body in portalable_bodies:
+		if portalable_body in body.name:
+			body.position = position
+			Globals.set_last_portal_coordinates_from_pos(position)
+			if body.fsm.state_curr != body.fsm.states.WarpOut:
+				body.fsm.state_next = body.fsm.states.WarpIn
 
 
 func _on_ExpandTimer_timeout():
