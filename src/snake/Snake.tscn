@@ -8,11 +8,10 @@
 [ext_resource path="res://src/snake/SnakeWarpIn.gd" type="Script" id=6]
 [ext_resource path="res://src/snake/SnakeWarpOut.gd" type="Script" id=7]
 
-[sub_resource type="RectangleShape2D" id=6]
+[sub_resource type="RectangleShape2D" id=7]
 extents = Vector2( 4, 5 )
 
-[sub_resource type="Animation" id=1]
-resource_name = "fall"
+[sub_resource type="Animation" id=8]
 length = 0.6
 loop = true
 step = 0.4
@@ -29,7 +28,7 @@ tracks/0/keys = {
 "values": [ 4, 5 ]
 }
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=9]
 length = 0.6
 loop = true
 tracks/0/type = "value"
@@ -45,7 +44,7 @@ tracks/0/keys = {
 "values": [ 0, 1 ]
 }
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=10]
 length = 0.6
 loop = true
 tracks/0/type = "value"
@@ -61,7 +60,7 @@ tracks/0/keys = {
 "values": [ 2, 3 ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=11]
 length = 0.6
 loop = true
 step = 0.3
@@ -78,7 +77,7 @@ tracks/0/keys = {
 "values": [ 2, 3 ]
 }
 
-[sub_resource type="RectangleShape2D" id=5]
+[sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 3, 4 )
 
 [node name="Snake" type="KinematicBody2D"]
@@ -87,17 +86,17 @@ script = ExtResource( 2 )
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource( 6 )
+shape = SubResource( 7 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/fall = SubResource( 1 )
-anims/idle = SubResource( 2 )
-anims/walk = SubResource( 3 )
-anims/walk_back = SubResource( 4 )
+anims/fall = SubResource( 8 )
+anims/idle = SubResource( 9 )
+anims/walk = SubResource( 10 )
+anims/walk_back = SubResource( 11 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 1 )
-shape = SubResource( 5 )
+shape = SubResource( 6 )
 
 [node name="Rotate" type="Node2D" parent="."]
 __meta__ = {

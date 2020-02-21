@@ -11,7 +11,11 @@ func run(_delta):
 	obj.vel.x = lerp(obj.vel.x, 0, Constants.PLAYER_WALK_DECELERATION * _delta)
 	obj.vel = obj.move_and_slide(obj.vel, Vector2.UP, true)
 	if obj.is_on_floor():
-		if Globals.CurrentRoom == obj.room:
+		if !floats_are_same(Globals.PlayerPosition.x, obj.position.x) and Globals.CurrentRoom == obj.room:
 			fsm.state_next = fsm.states.Walk
 	else:
 		fsm.state_next = fsm.states.Fall
+
+const FLOAT_EPSILON = 1
+static func floats_are_same(a, b, epsilon = FLOAT_EPSILON):
+	return abs(a - b) <= epsilon

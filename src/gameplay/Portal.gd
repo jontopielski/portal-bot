@@ -63,7 +63,7 @@ func _on_Area2D_body_entered(body):
 		if portalable_body in body.name:
 			body.position = position
 			Globals.set_last_portal_coordinates_from_pos(position)
-			if body.fsm.state_curr != body.fsm.states.WarpOut:
+			if body.fsm.state_curr != body.fsm.states.WarpOut and body.fsm.state_curr != body.fsm.states.WarpIn:
 				body.fsm.state_next = body.fsm.states.WarpIn
 
 
