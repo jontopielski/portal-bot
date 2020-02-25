@@ -33,13 +33,7 @@ func set_target_position(pos):
 	target_normal = position.direction_to(pos)
 
 func update_flame_color():
-	match gun_type:
-		Globals.GunType.RED:
-			$Flame.supershape_color = Color.red
-		Globals.GunType.GREEN:
-			$Flame.supershape_color = Color.green
-		Globals.GunType.BLUE:
-			$Flame.supershape_color = Color.blue
+	$Flame.supershape_color = Globals.PlayerGunColor
 
 func _on_Bullet_area_entered(area):
 	print("Area collider")
@@ -59,7 +53,8 @@ func _on_Bullet_body_entered(body):
 		if !(collided_tile_index in Constants.BULLET_TILE_INDEX_BLACKLIST):
 			if Constants.DEBUG_MODE:
 				print("Bullet collided with tile index ", str(collided_tile_index))
-			Globals.set_next_portal_info(coordinates, get_portal_type())
+			Globals.set_next_portal_info(coordinates, Globals.PortalType.STANDARD)
+		$MissedTarget.play()
 		queue_free()
 
 func get_portal_type():

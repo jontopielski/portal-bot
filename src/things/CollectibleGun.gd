@@ -22,4 +22,11 @@ func _on_CollectibleGun_body_entered(body):
 	if body.name == "Robo":
 		Globals.PlayerUnlockedGuns[gun_type] = true
 		body.update_current_gun_type(gun_type)
+		match gun_type:
+			Globals.GunType.RED:
+				Globals.PlayerGunColor = Color.red
+			Globals.GunType.BLUE:
+				Globals.PlayerGunColor = Color.blue
+			Globals.GunType.GREEN:
+				Globals.PlayerGunColor = Color.green
 		queue_free()

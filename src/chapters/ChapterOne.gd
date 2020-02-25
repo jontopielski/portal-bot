@@ -5,6 +5,7 @@ const Flame = preload("res://src/things/Flame.tscn")
 const Box = preload("res://src/box/Box.tscn")
 const CollectibleGun = preload("res://src/things/CollectibleGun.tscn")
 const Snake = preload("res://src/snake/Snake.tscn")
+const ChapterTwo = preload("res://src/chapters/ChapterTwo.tscn")
 
 var portal_info_prev = Globals.get_initial_portal_info()
 var portal_info_next
@@ -28,6 +29,9 @@ func _process(delta):
 	handle_next_portal_info()
 	if Globals.CurrentRoom == Vector2(8, 3):
 		handle_pressure_trigger_on_8_3(player_tilemap_coordinates)
+	if $Robo.position.y >= 622:
+		get_parent().add_child(ChapterTwo.instance())
+		queue_free()
 
 func handle_pressure_trigger_on_8_3(player_tilemap_coordinates):
 	var pressure_tile_coordinates = Vector2(132, 34)
@@ -41,8 +45,10 @@ func handle_pressure_trigger_on_8_3(player_tilemap_coordinates):
 		for vec in spike_tiles:
 			$TileMap.set_cell(vec.x, vec.y, Constants.TILE_REGULAR)
 		$TileMap.set_cell(pressure_tile_coordinates.x, pressure_tile_coordinates.y, Constants.TILE_PRESSURE_PAD_ONE)
+		get_parent().play_pressure_on_sound()
 	elif pressure_tile_index == Constants.TILE_PRESSURE_PAD_ONE:
 		$TileMap.set_cell(pressure_tile_coordinates.x, pressure_tile_coordinates.y, Constants.TILE_PRESSURE_PAD_ZERO)
+		get_parent().play_pressure_off_sound()
 		for vec in spike_tiles:
 			$TileMap.set_cell(vec.x, vec.y, Constants.TILE_SPIKE_INDEX)
 
@@ -58,6 +64,7 @@ func handle_next_portal_info():
 func create_portal_at_position(coordinates):
 	var next_portal = Portal.instance()
 	next_portal.position = $TileMap.map_to_world(coordinates) + Vector2(5, 5)
+	next_portal.coordinates = coordinates
 	add_child_below_node($Portals, next_portal)
 	Globals.push_portal(Globals.PortalInstance.new(Globals.PortalType.STANDARD, coordinates, $TileMap, next_portal))
 
@@ -76,6 +83,7 @@ func handle_player_current_tile_logic(player_tilemap_coordinates):
 	if player_current_tile_index == Constants.TILE_INACTIVE_SAVE_POINT_INDEX:
 		if Constants.DEBUG_MODE: print("Found save point!")
 		set_active_save_point(player_tilemap_coordinates)
+		get_parent().play_checkpoint_sound()
 	elif player_current_tile_index == Constants.TILE_SIGN_INDEX:
 		if Globals.CurrentRoom == Vector2(0, 0):
 			$Camera2D.display_text_start(Constants.SIGN_NO_JUMPING)
@@ -127,12 +135,13 @@ func update_star_position(star, next_camera_position, room_next):
 	star.position = Vector2(next_camera_position.x + star.x_offset - ((star.supershape_scale / 4.0) * room_next.x),
 				next_camera_position.y + star.y_offset - ((star.supershape_scale / 4.0) * room_next.y))
 
-func clear_all_shit():
+func clear_all_shit(include_current_room):
 	Globals.clear_portals()
 	clear_flames()
 	clear_boxes()
 	clear_snakes()
-	handle_prepare_next_room(Globals.CurrentRoom)
+	if include_current_room:
+		handle_prepare_next_room(Globals.CurrentRoom)
 	$Robo.is_on_cooldown = false
 
 func handle_cleanup_prev_room(room):
@@ -166,7 +175,7 @@ func handle_prepare_next_room(room):
 #			next_portal_type_from_timer = Globals.PortalType.STANDARD
 #			$AddSecondPortalTimer.start() # Hack!
 		Vector2(3, 1):
-			create_flame_at_coordinates(Vector2(53, 16))
+			create_flame_at_coordinates(Vector2(54, 16))
 			
 		Vector2(3, 2):
 			var spawn_offset_x = 1
@@ -177,13 +186,14 @@ func handle_prepare_next_room(room):
 			create_flame_at_coordinates(Vector2(start_offset_x + 2 + spawn_offset_x, 26 + spawn_offset_y))
 			create_flame_at_coordinates(Vector2(start_offset_x + 3 + spawn_offset_x, 26 + spawn_offset_y))
 			
-#			create_flame_at_coordinates(Vector2(start_offset_x + 7 + spawn_offset_x, 26 + spawn_offset_y))
-#			create_flame_at_coordinates(Vector2(start_offset_x + 8 + spawn_offset_x, 26 + spawn_offset_y))
-#			create_flame_at_coordinates(Vector2(start_offset_x + 9 + spawn_offset_x, 26 + spawn_offset_y))
+#			create_flame_at_coordinates(Vector2(start_offset_x + 6 + spawn_offset_x, 24 + spawn_offset_y))
+			create_flame_at_coordinates(Vector2(start_offset_x + 7 + spawn_offset_x, 24 + spawn_offset_y))
+			create_flame_at_coordinates(Vector2(start_offset_x + 8 + spawn_offset_x, 24 + spawn_offset_y))
+#			create_flame_at_coordinates(Vector2(start_offset_x + 9 + spawn_offset_x, 24 + spawn_offset_y))
 #			create_flame_at_coordinates(Vector2(start_offset_x + 11 + spawn_offset_x, 26 + spawn_offset_y))
-			create_flame_at_coordinates(Vector2(start_offset_x + 12 + spawn_offset_x, 26 + spawn_offset_y))
-			create_flame_at_coordinates(Vector2(start_offset_x + 13 + spawn_offset_x, 26 + spawn_offset_y))
-			create_flame_at_coordinates(Vector2(start_offset_x + 14 + spawn_offset_x, 26 + spawn_offset_y))
+			create_flame_at_coordinates(Vector2(start_offset_x + 12 + spawn_offset_x, 22 + spawn_offset_y))
+			create_flame_at_coordinates(Vector2(start_offset_x + 13 + spawn_offset_x, 22 + spawn_offset_y))
+			create_flame_at_coordinates(Vector2(start_offset_x + 14 + spawn_offset_x, 22 + spawn_offset_y))
 			
 #			spawn_offset_x = 0
 #			spawn_offset_y = 0
@@ -215,15 +225,15 @@ func handle_prepare_next_room(room):
 		Vector2(8, 3):
 			create_box_at_coordinates(Vector2(143, 33))
 		Vector2(9, 3):
-			create_flame_at_coordinates(Vector2(146, 35))
+#			create_flame_at_coordinates(Vector2(146, 35))
 			create_flame_at_coordinates(Vector2(147, 35))
 			create_flame_at_coordinates(Vector2(148, 35))
 			create_flame_at_coordinates(Vector2(149, 35))
-			
+#
 			create_flame_at_coordinates(Vector2(149, 34))
 			create_flame_at_coordinates(Vector2(150, 34))
 			create_flame_at_coordinates(Vector2(151, 34))
-			create_flame_at_coordinates(Vector2(152, 34))
+#			create_flame_at_coordinates(Vector2(152, 34))
 		Vector2(11, 5):
 			create_snake_at_coordinates(Vector2(11, 5), Vector2(184, 52))
 

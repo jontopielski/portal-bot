@@ -9,6 +9,7 @@ func terminate():
 	obj.rotate.rotation = 0
 	obj.rotate.scale = Vector2.ONE
 	obj.arm.scale = Vector2.ONE
+#	obj.collision_shape.disabled = false
 
 func run(_delta):
 	var lerp_scale_weight = 10

@@ -1,18 +1,32 @@
 extends Node2D
 
 const hole_color = Color.black
-const spiral_color = Color.red
+var spiral_color = Color.red
 
 var TEMP_START_POS = Vector2(0, 0)
 var radius = 5
 var spiral_rotation = 0
 var spiral_points = []
 var portal_type = Globals.PortalType.STANDARD
+var coordinates = Vector2.ZERO
+
+var is_special = false
 
 func _ready():
+	$PortalCreatedSound.play()
 	scale = Vector2.ZERO
 	for i in range(0, 6):
 		spiral_points.push_back(get_spiral_points(i));
+	spiral_color = Globals.PlayerGunColor
+
+func update_spiral_color():
+	match spiral_color:
+		Color.red:
+			spiral_color = Color.green
+		Color.green:
+			spiral_color = Color.blue
+		Color.blue:
+			spiral_color = Color.red
 
 func _draw():
 	draw_polygon(spiral_points[spiral_rotation], PoolColorArray([hole_color]))
@@ -52,6 +66,8 @@ func draw_circular_arc(center, radius, angle_from, angle_to, color, curviness, n
 	draw_colored_polygon(points_arc, color)
 
 func _on_SpinTimer_timeout():
+	if is_special:
+		update_spiral_color()
 	spiral_rotation += 1
 	if spiral_rotation == 6:
 		spiral_rotation = 0
@@ -61,10 +77,20 @@ func _on_Area2D_body_entered(body):
 	var portalable_bodies = ["Robo", "Box", "Snake"]
 	for portalable_body in portalable_bodies:
 		if portalable_body in body.name:
+			if "SnakeCharmer" in body.name:
+				return
 			body.position = position
-			Globals.set_last_portal_coordinates_from_pos(position)
+#			Globals.set_last_portal_coordinates_from_pos(position)
 			if body.fsm.state_curr != body.fsm.states.WarpOut and body.fsm.state_curr != body.fsm.states.WarpIn:
-				body.fsm.state_next = body.fsm.states.WarpIn
+				if "Robo" in body.name and body.fsm.state_curr == body.fsm.states.Death:
+					return
+				else:
+					if is_special:
+						Globals.HasWarpedIntoSpecialPortal = true
+						$FinalPortal.play()
+					$WarpIn.play()
+					body.last_portal_coordinates = coordinates
+					body.fsm.state_next = body.fsm.states.WarpIn
 
 
 func _on_ExpandTimer_timeout():

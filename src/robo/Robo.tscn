@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://sprites/robo/robo.png" type="Texture" id=1]
 [ext_resource path="res://src/robo/Robo.gd" type="Script" id=2]
@@ -11,6 +11,9 @@
 [ext_resource path="res://sprites/robo/possible-red-gun.png" type="Texture" id=9]
 [ext_resource path="res://sprites/robo/possible-green-gun.png" type="Texture" id=10]
 [ext_resource path="res://sprites/robo/possible-blue-gun.png" type="Texture" id=11]
+[ext_resource path="res://assets/audio/sfx/death.wav" type="AudioStream" id=12]
+[ext_resource path="res://assets/audio/sfx/shoot.wav" type="AudioStream" id=13]
+[ext_resource path="res://assets/audio/sfx/collect-gun.wav" type="AudioStream" id=14]
 
 [sub_resource type="Animation" id=1]
 resource_name = "fall"
@@ -156,6 +159,22 @@ one_shot = true
 [node name="UpdatePlayerPositionTimer" type="Timer" parent="."]
 wait_time = 0.2
 autostart = true
+
+[node name="DeathSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 12 )
+bus = "SFX"
+
+[node name="GunShoot" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 13 )
+bus = "SFX"
+
+[node name="EndGameDelayTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="EquipGun" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 14 )
+bus = "SFX"
 [connection signal="timeout" from="States/WarpIn/Timer" to="States/WarpIn" method="_on_Timer_timeout"]
 [connection signal="timeout" from="ShotCooldownTimer" to="." method="_on_ShotCooldownTimer_timeout"]
 [connection signal="timeout" from="UpdatePlayerPositionTimer" to="." method="_on_UpdatePlayerPositionTimer_timeout"]
+[connection signal="timeout" from="EndGameDelayTimer" to="." method="_on_EndGameDelayTimer_timeout"]

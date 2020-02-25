@@ -14,13 +14,19 @@ var save_point_pos = Constants.PLAYER_START_POSITION
 var cause_of_death = Globals.DeathCause.NONE
 export var current_gun_type = Globals.GunType.RED
 var is_on_cooldown = false
+var last_portal_coordinates = Vector2.ZERO
 
 onready var rotate = $Rotate
 onready var arm = $Arm
 onready var fsm = FSM.new(self, $States, $States/Idle, true)
+onready var collision_shape = $CollisionShape2D
 
 func _ready():
 	show_gun()
+	set_gun_to_current_global_color()
+
+func play_death_sound():
+	$DeathSound.play()
 
 func _physics_process(delta):
 	fsm.run_machine(delta)
@@ -56,8 +62,24 @@ func set_next_state(state):
 	fsm.state_next = state
 
 func update_current_gun_type(gun_type):
+	$EquipGun.play()
 	current_gun_type = gun_type
+	set_gun_to_current_global_color()
 	show_gun()
+
+func set_gun_to_current_global_color():
+	if current_gun_type == Globals.GunType.NONE:
+		return
+	$Arm/GreenGun.hide()
+	$Arm/RedGun.hide()
+	$Arm/BlueGun.hide()
+	match Globals.PlayerGunColor:
+		Color.red:
+			$Arm/RedGun.show()
+		Color.blue:
+			$Arm/BlueGun.show()
+		Color.green:
+			$Arm/GreenGun.show()
 
 func show_gun():
 	$Arm/GreenGun.hide()
@@ -71,6 +93,19 @@ func show_gun():
 		Globals.GunType.GREEN:
 			$Arm/GreenGun.show()
 
+func get_gun_color():
+	match current_gun_type:
+		Globals.GunType.RED:
+			return Color.red
+		Globals.GunType.BLUE:
+			return Color.blue
+		Globals.GunType.GREEN:
+			return Color.green
+
+func end_game():
+	get_parent().end_game()
+#	$EndGameDelayTimer.start()
+
 func handle_mouse_click(mouse_position):
 	var player_position = Vector2(position.x, position.y - 1)
 	var mouse_normal = player_position.direction_to(mouse_position)
@@ -81,6 +116,7 @@ func handle_mouse_click(mouse_position):
 	is_on_cooldown = true
 	$ShotCooldownTimer.start()
 	fire_bullet_at_pos(rotated_normal * 10, rotated_normal, player_position, false)
+	$GunShoot.play()
 #	fire_bullet_at_pos(rotated_normal * 10, rotated_normal, player_position, true)
 #	fire_bullet_at_pos(rotated_normal * 10, rotated_normal, player_position, true)
 	
@@ -113,3 +149,7 @@ func fade_out():
 
 func _on_UpdatePlayerPositionTimer_timeout():
 	Globals.PlayerPosition = global_position
+
+func _on_EndGameDelayTimer_timeout():
+	get_parent().end_game()
+	pass

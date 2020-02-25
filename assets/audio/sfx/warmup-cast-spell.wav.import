@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/warmup-cast-spell.wav-c509e7ce105e54a72a8ef1867c3cb688.sample"
+
+[deps]
+
+source_file="res://assets/audio/sfx/warmup-cast-spell.wav"
+dest_files=[ "res://.import/warmup-cast-spell.wav-c509e7ce105e54a72a8ef1867c3cb688.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

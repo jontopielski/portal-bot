@@ -4,7 +4,9 @@ var vel = Vector2()
 
 onready var rotate = $Rotate
 onready var fsm = FSM.new(self, $States, $States/Idle, true)
+onready var collision_shape = $CollisionShape2D
 
+var last_portal_coordinates = Vector2.ZERO
 var spawn_position = Vector2.ZERO
 
 func _ready():
@@ -22,3 +24,9 @@ func check_out_of_bounds():
 func set_spawn_position(pos):
 	spawn_position = pos
 	position = pos
+
+func _on_Area2D_body_entered(body):
+	print("BOX COLLIDED WITH ", body.name)
+	if "SnakeCharmer" in body.name:
+		body.take_damage()
+		queue_free()

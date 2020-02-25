@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://sprites/tiles/snake.png" type="Texture" id=1]
 [ext_resource path="res://src/snake/Snake.gd" type="Script" id=2]
@@ -7,11 +7,12 @@
 [ext_resource path="res://src/snake/SnakeFall.gd" type="Script" id=5]
 [ext_resource path="res://src/snake/SnakeWarpIn.gd" type="Script" id=6]
 [ext_resource path="res://src/snake/SnakeWarpOut.gd" type="Script" id=7]
+[ext_resource path="res://assets/audio/sfx/snake.wav" type="AudioStream" id=8]
 
-[sub_resource type="RectangleShape2D" id=7]
+[sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 4, 5 )
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=2]
 length = 0.6
 loop = true
 step = 0.4
@@ -28,7 +29,7 @@ tracks/0/keys = {
 "values": [ 4, 5 ]
 }
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=3]
 length = 0.6
 loop = true
 tracks/0/type = "value"
@@ -44,7 +45,7 @@ tracks/0/keys = {
 "values": [ 0, 1 ]
 }
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=4]
 length = 0.6
 loop = true
 tracks/0/type = "value"
@@ -60,7 +61,7 @@ tracks/0/keys = {
 "values": [ 2, 3 ]
 }
 
-[sub_resource type="Animation" id=11]
+[sub_resource type="Animation" id=5]
 length = 0.6
 loop = true
 step = 0.3
@@ -81,18 +82,19 @@ tracks/0/keys = {
 extents = Vector2( 3, 4 )
 
 [node name="Snake" type="KinematicBody2D"]
+collision_layer = 2
 script = ExtResource( 2 )
 
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource( 7 )
+shape = SubResource( 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/fall = SubResource( 8 )
-anims/idle = SubResource( 9 )
-anims/walk = SubResource( 10 )
-anims/walk_back = SubResource( 11 )
+anims/fall = SubResource( 2 )
+anims/idle = SubResource( 3 )
+anims/walk = SubResource( 4 )
+anims/walk_back = SubResource( 5 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 1 )
@@ -127,4 +129,8 @@ script = ExtResource( 6 )
 
 [node name="WarpOut" type="Node" parent="States"]
 script = ExtResource( 7 )
+
+[node name="SnakeSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 8 )
+bus = "SFX Low Pass"
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]

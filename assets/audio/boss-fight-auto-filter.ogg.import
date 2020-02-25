@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/boss-fight-auto-filter.ogg-cc7a00492b4243df40980acae9b5cb30.oggstr"
+
+[deps]
+
+source_file="res://assets/audio/boss-fight-auto-filter.ogg"
+dest_files=[ "res://.import/boss-fight-auto-filter.ogg-cc7a00492b4243df40980acae9b5cb30.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

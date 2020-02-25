@@ -2,6 +2,7 @@ extends FSM_State
 
 func initialize():
 	obj.fade_in()
+	obj.play_death_sound()
 	pass
 
 func terminate():
@@ -11,7 +12,7 @@ func terminate():
 	obj.arm.scale = Vector2.ONE
 	
 #	Globals.clear_portals()
-	obj.get_parent().clear_all_shit()
+	obj.get_parent().clear_all_shit(true)
 
 func run(_delta):
 	if obj.cause_of_death == Globals.DeathCause.SPIKES:

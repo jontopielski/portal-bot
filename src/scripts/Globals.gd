@@ -35,21 +35,30 @@ var PlayerUnlockedGuns = {
 var PortalQueue = []
 var NextPortalInfo = get_initial_portal_info()
 var LastPortalCoordinates = Vector2.ZERO
-var LastPortalType = PortalType.STANDARD
+#var LastPortalType = PortalType.STANDARD
 var CurrentRoom = Vector2.ZERO
 var PlayerPosition = Vector2.ZERO
 
-func get_next_portal_position(allow_same):
-	for portal in PortalQueue:
-		if portal.type != LastPortalType:
-			continue
-		elif LastPortalCoordinates == portal.tilemap_coordinates:
-			continue
-		else:
-			return portal.tilemap.map_to_world(portal.tilemap_coordinates) + Vector2(5, 5)
-	if PortalQueue.size() == 1 and allow_same:
+var PlayerGunColor = Color.red
+
+var HasDefeatedBoss = false
+var HasWarpedIntoSpecialPortal = false
+
+func get_next_portal_position(last_portal_coordinates, allow_same):
+	if PortalQueue.size() == 0:
+		print("TRYING TO GET A PORTAL FROM AN EMPTY QUEUE!")
+		return Vector2.ZERO
+	if allow_same and PortalQueue.size() == 1:
 		var same_portal = PortalQueue.front()
-		return  same_portal.tilemap.map_to_world(same_portal.tilemap_coordinates) + Vector2(5, 5)
+		return same_portal.tilemap.map_to_world(same_portal.tilemap_coordinates) + Vector2(5, 5)
+	if PortalQueue.size() >= 2:
+		for portal in PortalQueue:
+#			if portal.type != LastPortalType:
+#				continue
+			if last_portal_coordinates == portal.tilemap_coordinates:
+				continue
+			else:
+				return portal.tilemap.map_to_world(portal.tilemap_coordinates) + Vector2(5, 5)
 
 func set_last_portal_coordinates_from_pos(pos):
 	for portal in PortalQueue:
@@ -69,8 +78,7 @@ func get_initial_portal_info():
 
 func is_portal_info_same(info_one, info_two):
 	if info_one.coordinates.x == info_two.coordinates.x and \
-			info_one.coordinates.y == info_two.coordinates.y \
-			and info_one.type == info_two.type:
+			info_one.coordinates.y == info_two.coordinates.y:
 		return true
 	else:
 		return false
@@ -94,9 +102,10 @@ func pop_portal():
 	if PortalQueue.size() == 0:
 		return
 	var top_portal = PortalQueue.pop_front()
-	top_portal.tilemap.set_cell(top_portal.tilemap_coordinates.x,
-				top_portal.tilemap_coordinates.y, top_portal.overwritten_tile_index)
-	top_portal.object_ref.queue_free()
+	if top_portal != null and top_portal.tilemap != null:
+		top_portal.tilemap.set_cell(top_portal.tilemap_coordinates.x,
+					top_portal.tilemap_coordinates.y, top_portal.overwritten_tile_index)
+		top_portal.object_ref.queue_free()
 
 func push_portal(portal):
 	PortalQueue.push_back(portal)

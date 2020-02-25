@@ -38,6 +38,14 @@ func reset():
 	$RespawnTimer.stop()
 	$BackTo1Timer.stop()
 
+func clear_to_black_and_queue_free():
+	tilemap_ref.set_cell(platform_coordinates.x, platform_coordinates.y, -1)
+	current_state = State.NOT_STARTED
+	$Timer.stop()
+	$RespawnTimer.stop()
+	$BackTo1Timer.stop()
+	queue_free()
+
 func hide():
 	tilemap_ref.set_cell(platform_coordinates.x, platform_coordinates.y, -1)
 	current_state = State.HIDDEN

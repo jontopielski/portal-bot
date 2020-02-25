@@ -1,9 +1,43 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://src/Main.gd" type="Script" id=1]
 [ext_resource path="res://src/chapters/ChapterOne.tscn" type="PackedScene" id=2]
+[ext_resource path="res://assets/audio/atmosphere-more-chill.ogg" type="AudioStream" id=3]
+[ext_resource path="res://assets/audio/boss-fight-auto-filter.ogg" type="AudioStream" id=4]
+[ext_resource path="res://assets/audio/sfx/checkpoint.wav" type="AudioStream" id=5]
+[ext_resource path="res://assets/audio/sfx/pressure-pad-on.wav" type="AudioStream" id=6]
+[ext_resource path="res://assets/audio/sfx/gun-failed-to-create-portal.wav" type="AudioStream" id=7]
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 1 )
+is_muted = true
+
+[node name="MainMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+bus = "Music"
+
+[node name="BossMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+bus = "Boss"
+
+[node name="SFX" type="Node" parent="."]
+
+[node name="CheckpointSound" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource( 5 )
+volume_db = -6.0
+bus = "SFX Low Pass"
+
+[node name="PressurePadOnSound" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource( 6 )
+bus = "SFX"
+
+[node name="PressurePadOffSound" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource( 7 )
+bus = "SFX"
 
 [node name="ChapterOne" parent="." instance=ExtResource( 2 )]
+
+[node name="SongStartTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+[connection signal="timeout" from="SongStartTimer" to="." method="_on_SongStartTimer_timeout"]

@@ -1,0 +1,234 @@
+[gd_scene load_steps=22 format=2]
+
+[ext_resource path="res://src/snakecharmer/SnakeCharmer.gd" type="Script" id=1]
+[ext_resource path="res://sprites/etc/snakecharmer.png" type="Texture" id=2]
+[ext_resource path="res://sprites/etc/jar.png" type="Texture" id=3]
+[ext_resource path="res://src/snakecharmer/CharmerIdle.gd" type="Script" id=4]
+[ext_resource path="res://src/snakecharmer/CharmerMove.gd" type="Script" id=5]
+[ext_resource path="res://src/snakecharmer/CharmerMoveAgain.gd" type="Script" id=6]
+[ext_resource path="res://src/snakecharmer/CharmerCast.gd" type="Script" id=7]
+[ext_resource path="res://src/snakecharmer/CharmerSummon.gd" type="Script" id=8]
+[ext_resource path="res://src/snakecharmer/CharmerDeath.gd" type="Script" id=9]
+[ext_resource path="res://assets/audio/sfx/warmup-cast-spell.wav" type="AudioStream" id=10]
+[ext_resource path="res://assets/audio/sfx/shoot.wav" type="AudioStream" id=11]
+[ext_resource path="res://assets/audio/sfx/boss-cry.wav" type="AudioStream" id=12]
+[ext_resource path="res://assets/audio/sfx/enemy-hurt.wav" type="AudioStream" id=13]
+[ext_resource path="res://assets/audio/sfx/warp-in-maybe-2.wav" type="AudioStream" id=14]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 4, 9 )
+
+[sub_resource type="Animation" id=2]
+loop = true
+step = 0.25
+tracks/0/type = "value"
+tracks/0/path = NodePath("Rotate/SnakeCharmer:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.25, 0.5, 0.75 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 8, 9, 10, 11 ]
+}
+
+[sub_resource type="Animation" id=3]
+length = 0.75
+loop = true
+step = 0.25
+tracks/0/type = "value"
+tracks/0/path = NodePath("Rotate/SnakeCharmer:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.25, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 13, 14, 15 ]
+}
+
+[sub_resource type="Animation" id=4]
+loop = true
+step = 0.25
+tracks/0/type = "value"
+tracks/0/path = NodePath("Rotate/SnakeCharmer:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.25, 0.5, 0.75 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 4, 5, 6, 7 ]
+}
+
+[sub_resource type="Animation" id=5]
+length = 0.25
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Rotate/SnakeCharmer:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 12 ]
+}
+
+[sub_resource type="Animation" id=6]
+loop = true
+step = 0.25
+tracks/0/type = "value"
+tracks/0/path = NodePath("Rotate/SnakeCharmer:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.25, 0.5, 0.75 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3 ]
+}
+
+[sub_resource type="RectangleShape2D" id=7]
+extents = Vector2( 6, 11 )
+
+[node name="SnakeCharmer" type="KinematicBody2D"]
+collision_layer = 2
+script = ExtResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="Rotate" type="Node2D" parent="."]
+
+[node name="SnakeCharmer" type="Sprite" parent="Rotate"]
+texture = ExtResource( 2 )
+hframes = 16
+frame = 13
+
+[node name="Jar" type="Sprite" parent="Rotate"]
+position = Vector2( 13, 11 )
+texture = ExtResource( 3 )
+offset = Vector2( 0, -1 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/cast = SubResource( 2 )
+anims/cry = SubResource( 3 )
+anims/idle = SubResource( 4 )
+anims/still = SubResource( 5 )
+anims/summon = SubResource( 6 )
+
+[node name="WaveTimer" type="Timer" parent="."]
+wait_time = 0.1
+autostart = true
+
+[node name="States" type="Node" parent="."]
+
+[node name="Idle" type="Node" parent="States"]
+script = ExtResource( 4 )
+
+[node name="Move" type="Node" parent="States"]
+script = ExtResource( 5 )
+
+[node name="MoveAgain" type="Node" parent="States"]
+script = ExtResource( 6 )
+
+[node name="Cast" type="Node" parent="States"]
+script = ExtResource( 7 )
+
+[node name="CastTimer" type="Timer" parent="States/Cast"]
+wait_time = 2.5
+one_shot = true
+
+[node name="CastWarningTimer" type="Timer" parent="States/Cast"]
+one_shot = true
+
+[node name="Summon" type="Node" parent="States"]
+script = ExtResource( 8 )
+
+[node name="SnakeTimer" type="Timer" parent="States/Summon"]
+wait_time = 1.5
+
+[node name="Death" type="Node" parent="States"]
+script = ExtResource( 9 )
+
+[node name="Timer" type="Timer" parent="States/Death"]
+wait_time = 4.0
+one_shot = true
+
+[node name="StateSwitchTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="Snakes" type="Node" parent="."]
+
+[node name="GunSmoke" type="Node" parent="."]
+
+[node name="CastBeams" type="Node" parent="."]
+
+[node name="CastWarningTimer" type="Timer" parent="."]
+wait_time = 0.3
+
+[node name="CastMissiles" type="Node" parent="."]
+
+[node name="DamageUITimer" type="Timer" parent="."]
+wait_time = 0.1
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource( 7 )
+
+[node name="PrepareCastSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 10 )
+volume_db = -15.0
+bus = "SFX Low Pass"
+
+[node name="PrepareCastSoundGreen" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 10 )
+volume_db = -15.0
+pitch_scale = 0.5
+bus = "SFX Low Pass"
+
+[node name="PrepareCastSoundBlue" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 10 )
+volume_db = -15.0
+pitch_scale = 2.0
+bus = "SFX Low Pass"
+
+[node name="ShootSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 11 )
+bus = "SFX"
+
+[node name="FluteSound" type="AudioStreamPlayer" parent="."]
+
+[node name="CrySound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 12 )
+bus = "SFX"
+
+[node name="TakeDamageSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 13 )
+bus = "SFX Low Pass"
+
+[node name="DisappearSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 14 )
+bus = "SFX Low Pass"
+[connection signal="timeout" from="WaveTimer" to="." method="_on_WaveTimer_timeout"]
+[connection signal="timeout" from="States/Cast/CastTimer" to="States/Cast" method="_on_CastTimer_timeout"]
+[connection signal="timeout" from="States/Cast/CastWarningTimer" to="States/Cast" method="_on_CastWarningTimer_timeout"]
+[connection signal="timeout" from="States/Summon/SnakeTimer" to="States/Summon" method="_on_SnakeTimer_timeout"]
+[connection signal="timeout" from="States/Death/Timer" to="States/Death" method="_on_Timer_timeout"]
+[connection signal="timeout" from="StateSwitchTimer" to="." method="_on_StateSwitchTimer_timeout"]
+[connection signal="timeout" from="CastWarningTimer" to="." method="_on_CastWarningTimer_timeout"]
+[connection signal="timeout" from="DamageUITimer" to="." method="_on_DamageUITimer_timeout"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]

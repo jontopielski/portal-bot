@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/warp-in-maybe-2.wav-64ff7d5b008d50e06f8273f6e2e3e2aa.sample"
+
+[deps]
+
+source_file="res://assets/audio/sfx/warp-in-maybe-2.wav"
+dest_files=[ "res://.import/warp-in-maybe-2.wav-64ff7d5b008d50e06f8273f6e2e3e2aa.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

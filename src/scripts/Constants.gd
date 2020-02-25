@@ -12,6 +12,8 @@ const PLAYER_WALK_DECELERATION = 15
 const PLAYER_FALL_ACCELERATION = 5
 const PLAYER_FALL_DECELERATION = 5
 
+const SNAKECHARMER_SPEED = 3
+
 const DEATH_TILES = [8, 54, 55, 56, 57, 65]
 
 const TILE_SPIKE_INDEX = 8
@@ -33,8 +35,11 @@ const SIGN_NO_JUMPING = "no jump program installed"
 const SIGN_PRE_GUN = "branch out a little bit"
 const SIGN_THIRD = "don't tire out yet"
 const SIGN_FOURTH = "you're not trash"
-const SIGN_FIVE = "a hole"
+const SIGN_FIVE = "i won't hole-d your hand"
 const SIGN_YOU_ROCK = "u rock"
 const SIGN_SPIKE_CEILING = "stop and stair"
 const SIGN_SNAKE_SPIKE_AND_FALL = "snake pass"
-const SIGN_UPSIDE_DOWN_TILES = "left to your own devices"
+const SIGN_UPSIDE_DOWN_TILES = "left out"
+const SIGN_BRIDGE = "bridge the divide"
+const SIGN_POST_DOUBLE_SNAKE = "there's always tomb-orrow"
+const SIGN_FINAL = "hope that didn't tire u out too much"

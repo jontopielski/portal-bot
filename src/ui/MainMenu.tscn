@@ -33,11 +33,11 @@ __meta__ = {
 }
 
 [node name="Start" type="Label" parent="MenuItems/MenuOptions/StartContainer"]
-margin_left = 31.0
-margin_right = 88.0
+margin_left = 22.0
+margin_right = 97.0
 margin_bottom = 33.0
 custom_fonts/font = ExtResource( 3 )
-text = "start"
+text = "thanks"
 
 [node name="OptionsContainer" type="CenterContainer" parent="MenuItems/MenuOptions"]
 margin_top = 135.0
@@ -46,11 +46,11 @@ margin_bottom = 168.0
 rect_min_size = Vector2( 120, 0 )
 
 [node name="Options" type="Label" parent="MenuItems/MenuOptions/OptionsContainer"]
-margin_left = 20.0
-margin_right = 100.0
+margin_left = 43.0
+margin_right = 77.0
 margin_bottom = 33.0
 custom_fonts/font = ExtResource( 3 )
-text = "options"
+text = "for"
 
 [node name="CreditsContainer" type="CenterContainer" parent="MenuItems/MenuOptions"]
 margin_top = 173.0
@@ -59,11 +59,11 @@ margin_bottom = 206.0
 rect_min_size = Vector2( 120, 0 )
 
 [node name="Credits" type="Label" parent="MenuItems/MenuOptions/CreditsContainer"]
-margin_left = 21.0
-margin_right = 99.0
+margin_left = 20.0
+margin_right = 100.0
 margin_bottom = 33.0
 custom_fonts/font = ExtResource( 3 )
-text = "credits"
+text = "playing!"
 
 [node name="TitleItems" type="VBoxContainer" parent="MenuItems"]
 margin_left = 124.0
