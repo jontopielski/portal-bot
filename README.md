@@ -1,5 +1,7 @@
 # Portal Bot
 
+![Alt Text](https://img.itch.zone/aW1nLzMwMjE5OTkuZ2lm/original/sap7ey.gif)
+
 https://jontopielski.itch.io/portalbot
 
 This was a game I made for the Brackeys Game Jam 2020.1 in February 2020.
